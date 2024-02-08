@@ -22,7 +22,7 @@ class SettingsPageButtons extends StatelessWidget {
                 color: const Color.fromRGBO(238, 33, 33, 1),
               ),
               child: const Center(
-                child: Text('Share with friends', style: AppStyle.buttonName),
+                child: Text('Share with friends', style: AppStyle.redButton),
               ),
             ),
             Material(
@@ -56,7 +56,7 @@ class SettingsPageButtons extends StatelessWidget {
                 color: const Color.fromRGBO(238, 33, 33, 1),
               ),
               child: const Center(
-                child: Text('Privacy Policy', style: AppStyle.buttonName),
+                child: Text('Privacy Policy', style: AppStyle.redButton),
               ),
             ),
             Material(
@@ -90,7 +90,7 @@ class SettingsPageButtons extends StatelessWidget {
                 color: const Color.fromRGBO(238, 33, 33, 1),
               ),
               child: const Center(
-                child: Text('Terms of use', style: AppStyle.buttonName),
+                child: Text('Terms of use', style: AppStyle.redButton),
               ),
             ),
             Material(

@@ -53,14 +53,88 @@ class _HomePageState extends State<HomePage> {
             top: 310,
             left: 62,
             child: Row(
+              children: [SoundButton(), SizedBox(width: 8), SettingsButton()],
+            ),
+          ),
+          Positioned(
+            top: 238,
+            left: 298,
+            child: Column(
               children: [
-                SoundButton(),
-                SizedBox(width: 8),
-                SettingsButton()
+                Stack(
+                  children: [
+                    Container(
+                      width: 241,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          width: 4,
+                          color: const Color.fromRGBO(190, 23, 23, 1),
+                        ),
+                        color: const Color.fromRGBO(238, 33, 33, 1),
+                      ),
+                      child: const Center(
+                        child:
+                            Text('Spots', style: AppStyle.redButton),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/spots');
+                        },
+                        child: Container(
+                          width: 241,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Stack(
+                  children: [
+                    Container(
+                      width: 241,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          width: 4,
+                          color: const Color.fromRGBO(190, 23, 23, 1),
+                        ),
+                        color: const Color.fromRGBO(238, 33, 33, 1),
+                      ),
+                      child: const Center(
+                        child:
+                            Text('Exit', style: AppStyle.redButton),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () {},
+                        child: Container(
+                          width: 241,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
-          const Column()
         ],
       ),
     );

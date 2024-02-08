@@ -55,7 +55,7 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     Text(
                       'Vibro',
-                      style: AppStyle.buttonName,
+                      style: AppStyle.redButton,
                     ),
                     SizedBox(width: 114),
                     CustomCupertinoSwitch(),
@@ -63,7 +63,7 @@ class SettingsPage extends StatelessWidget {
                 ),
                 Text(
                   'App icon',
-                  style: AppStyle.buttonName,
+                  style: AppStyle.redButton,
                 ),
                 LogoChoosing(),
               ],

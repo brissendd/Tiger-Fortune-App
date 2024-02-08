@@ -20,6 +20,7 @@ abstract class AppStyle {
   );
   static TextStyle headline2Outline = TextStyle(
     fontSize: 32,
+    height: 0.9,
     fontWeight: FontWeight.w900,
     fontStyle: FontStyle.italic,
     foreground: Paint()
@@ -29,14 +30,21 @@ abstract class AppStyle {
   );
   static const TextStyle headline2 = TextStyle(
     fontSize: 32,
+    height: 0.9,
     fontWeight: FontWeight.w900,
     fontStyle: FontStyle.italic,
     color: Color.fromRGBO(238, 33, 33, 1),
   );
-  static const TextStyle buttonName = TextStyle(
+  static const TextStyle redButton = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,
     fontSize: 16,
+    color: Color.fromRGBO(252, 252, 252, 1),
+  );
+  static const TextStyle blueButton = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w700,
+    fontSize: 20,
     color: Color.fromRGBO(252, 252, 252, 1),
   );
 }

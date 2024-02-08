@@ -42,25 +42,25 @@ class _HomePageState extends State<HomePage> {
               child: Stack(
                 children: [
                   Text('TIGER\nFORTUNE',
-                      maxLines: 2, style: AppStyle.headlineOutline),
+                      maxLines: 2, style: AppStyle.headline1Outline),
                   const Text('TIGER\nFORTUNE',
-                      maxLines: 2, style: AppStyle.headline),
+                      maxLines: 2, style: AppStyle.headline1),
                 ],
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 310,
             left: 62,
             child: Row(
               children: [
                 SoundButton(),
-                const SizedBox(width: 8),
-                SettingsBUtton()
+                SizedBox(width: 8),
+                SettingsButton()
               ],
             ),
           ),
-          Column()
+          const Column()
         ],
       ),
     );

@@ -1,8 +1,9 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tiger_fortune_app/home_page.dart';
+import 'package:tiger_fortune_app/pages/home_page.dart';
 import 'package:flutter/services.dart';
+import 'package:tiger_fortune_app/pages/settings_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,7 @@ void main() {
     (value) => runApp(
       DevicePreview(
         enabled: !kReleaseMode,
-        builder: (context) => MyApp(),
+        builder: (context) => const MyApp(),
       ),
     ),
   );
@@ -33,8 +34,9 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       routes: {
         '/': (context) => const HomePage(),
+        '/settings':(context) => const SettingsPage(),
       },
-      initialRoute: '/',
+      initialRoute: '/settings',
     );
   }
 }

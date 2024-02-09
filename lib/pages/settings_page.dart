@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/app_style.dart';
-import 'package:tiger_fortune_app/widgets/blue_arrow_button.dart';
-import 'package:tiger_fortune_app/widgets/cupertino_switch.dart';
+import 'package:tiger_fortune_app/widgets/buttons/blue_arrow_button.dart';
+import 'package:tiger_fortune_app/widgets/buttons/cupertino_switch.dart';
 import 'package:tiger_fortune_app/widgets/logo_choosing.dart';
-import 'package:tiger_fortune_app/widgets/settings_buttons.dart';
+import 'package:tiger_fortune_app/widgets/buttons/settings_buttons.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

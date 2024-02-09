@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/app_style.dart';
-import 'package:tiger_fortune_app/widgets/settings_button_widget.dart';
-import 'package:tiger_fortune_app/widgets/sound_button_widget.dart';
+import 'package:tiger_fortune_app/widgets/buttons/settings_button_widget.dart';
+import 'package:tiger_fortune_app/widgets/buttons/sound_button_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -5,6 +5,7 @@ import 'package:tiger_fortune_app/pages/home_page.dart';
 import 'package:flutter/services.dart';
 import 'package:tiger_fortune_app/pages/settings_page.dart';
 import 'package:tiger_fortune_app/pages/spots_page.dart';
+import 'package:tiger_fortune_app/pages/spotslot_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,8 +38,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
         '/spots': (context) => const SpotsPage(),
+        '/spotSlot':(context) => const SpotSlotPage(),
       },
-      initialRoute: '/spots',
+      initialRoute: '/spotSlot',
     );
   }
 }

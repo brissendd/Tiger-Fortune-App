@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:tiger_fortune_app/app_style.dart';
-import 'package:tiger_fortune_app/widgets/blue_arrow_button.dart';
+import 'package:tiger_fortune_app/widgets/buttons/blue_arrow_button.dart';
 
 class SpotsPage extends StatefulWidget {
   const SpotsPage({super.key});
@@ -11,6 +11,7 @@ class SpotsPage extends StatefulWidget {
 }
 
 class _SpotsPageState extends State<SpotsPage> {
+  final pageController = PageController(initialPage: 0, viewportFraction: 2);
   final List<Widget> spotsList = [
     // spot roulette
     Column(
@@ -109,14 +110,17 @@ class _SpotsPageState extends State<SpotsPage> {
             child: BlueArrowButton(),
           ),
           Positioned(
-            top: 24,
-            left: 334,
-            width: 176.34,
-            height: 280,
-            child: PageView(
-              children: [spotsList[0], spotsList[1], spotsList[2]],
-            ),
-          ),
+              top: 24,
+              left: 287,
+              width: MediaQuery.of(context).size.width / 2,
+              height: 280,
+              child: PageView.builder(
+                controller: pageController,
+                itemCount: spotsList.length,
+                itemBuilder: ((context, index) {
+                  return spotsList[index];
+                }),
+              )),
           Positioned(
             top: 302,
             left: 341,
@@ -145,6 +149,82 @@ class _SpotsPageState extends State<SpotsPage> {
                     child: Container(
                       width: 161,
                       height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 171,
+            left: 198,
+            child: Stack(
+              children: [
+                Container(
+                  width: 49,
+                  height: 48,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 4,
+                        color: const Color.fromRGBO(190, 23, 23, 1),
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      color: const Color.fromRGBO(238, 33, 33, 1)),
+                  child: Image.asset('assets/images/backArrow_icon.png'),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: 49,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 171,
+            left: 588,
+            child: Stack(
+              children: [
+                Container(
+                  width: 49,
+                  height: 48,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 4,
+                        color: const Color.fromRGBO(190, 23, 23, 1),
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      color: const Color.fromRGBO(238, 33, 33, 1)),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(math.pi),
+                    child: Image.asset('assets/images/backArrow_icon.png'),
+                  ),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      width: 49,
+                      height: 48,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                       ),

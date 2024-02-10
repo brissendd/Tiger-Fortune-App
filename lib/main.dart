@@ -1,11 +1,13 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiger_fortune_app/bloc/spots_page_state.dart';
 import 'package:tiger_fortune_app/pages/home_page.dart';
 import 'package:flutter/services.dart';
 import 'package:tiger_fortune_app/pages/settings_page.dart';
+import 'package:tiger_fortune_app/pages/spot_slot_page.dart';
 import 'package:tiger_fortune_app/pages/spots_page.dart';
-import 'package:tiger_fortune_app/pages/spotslot_page.dart';
+import 'package:tiger_fortune_app/presentation/di.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +40,13 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
         '/spots': (context) => const SpotsPage(),
-        '/spotSlot':(context) => const SpotSlotPage(),
+        '/spotSlot':(context) => FutureBuilder(future: DI.getInstance().init(), builder: (context, snapshot){
+          if (snapshot.connectionState == ConnectionState.done){
+            return const SpotSlotPage();
+          } else{
+            return const CircularProgressIndicator();
+          }
+        }),
       },
       initialRoute: '/spotSlot',
     );

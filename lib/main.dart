@@ -1,13 +1,12 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tiger_fortune_app/bloc/spots_page_state.dart';
 import 'package:tiger_fortune_app/pages/home_page.dart';
 import 'package:flutter/services.dart';
 import 'package:tiger_fortune_app/pages/settings_page.dart';
-import 'package:tiger_fortune_app/pages/spot_slot_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/spot_slot_page.dart';
 import 'package:tiger_fortune_app/pages/spots_page.dart';
-import 'package:tiger_fortune_app/presentation/di.dart';
+import 'package:tiger_fortune_app/di.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

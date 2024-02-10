@@ -46,5 +46,6 @@ abstract class AppStyle {
     fontWeight: FontWeight.w700,
     fontSize: 20,
     color: Color.fromRGBO(252, 252, 252, 1),
+    letterSpacing: 1
   );
 }

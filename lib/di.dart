@@ -1,9 +1,9 @@
 import 'package:tiger_fortune_app/domain/use_cases/impl/balance_case_impl.dart';
 import 'package:tiger_fortune_app/domain/use_cases/interfaces/balance_case.dart';
-import 'package:tiger_fortune_app/repository/balance_repo.dart';
+import 'package:tiger_fortune_app/data/repository/balance_repo.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
-import 'package:tiger_fortune_app/repository/balance_repo_impl.dart';
+import 'package:tiger_fortune_app/data/repository/balance_repo_impl.dart';
 
 class DI {
   static DI? instance;

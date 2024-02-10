@@ -1,4 +1,4 @@
-import 'package:tiger_fortune_app/repository/balance_repo.dart';
+import 'package:tiger_fortune_app/data/repository/balance_repo.dart';
 import 'package:hive/hive.dart';
 
 class BalanceRepositoryImpl extends BalanceRepository {

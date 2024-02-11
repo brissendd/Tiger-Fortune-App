@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tiger_fortune_app/app_colors.dart';
-import 'package:tiger_fortune_app/app_style.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tiger_fortune_app/app_theme/app_colors.dart';
+import 'package:tiger_fortune_app/app_theme/app_style.dart';
 import 'package:tiger_fortune_app/presentation/bloc/spots_page_cubit.dart';
-import 'package:tiger_fortune_app/presentation/bloc/spots_page_state.dart';
+// import 'package:tiger_fortune_app/presentation/bloc/spots_page_state.dart';
 
 class SpotSlotPage extends StatefulWidget {
   const SpotSlotPage({super.key});
@@ -132,7 +132,7 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                           ),
                           borderRadius: BorderRadius.circular(16),
                           color: AppColor.blue),
-                      child: const Center(child: Text('SPIN', style: AppStyle.blueButton,)),
+                      child: const Center(child: Text('SPIN', style: AppStyle.thickText,)),
                     ),
                     Material(
                       color: Colors.transparent,

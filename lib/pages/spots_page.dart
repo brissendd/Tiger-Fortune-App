@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
-import 'package:tiger_fortune_app/app_style.dart';
-import 'package:tiger_fortune_app/widgets/buttons/blue_arrow_button.dart';
+import 'package:tiger_fortune_app/app_theme/app_colors.dart';
+import 'package:tiger_fortune_app/app_theme/app_style.dart';
+import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
+import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
+import 'package:tiger_fortune_app/widgets/outlined_text_widget.dart';
 
 class SpotsPage extends StatefulWidget {
   const SpotsPage({super.key});
@@ -11,230 +13,139 @@ class SpotsPage extends StatefulWidget {
 }
 
 class _SpotsPageState extends State<SpotsPage> {
-  final pageController = PageController(initialPage: 0, viewportFraction: 2);
-  final List<Widget> spotsList = [
-    // spot roulette
-    Column(
-      children: [
-        FittedBox(
-          fit: BoxFit.cover,
-          child: Stack(
-            children: [
-              Text(
-                'SPOT\nROULETTE',
-                style: AppStyle.headline2Outline,
-              ),
-              const Text(
-                'SPOT\nROULETTE',
-                style: AppStyle.headline2,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 17),
-        Image.asset(
-          'assets/images/roulette.png',
-          width: 176.34,
-          height: 180,
-        )
-      ],
-    ),
-    // spot slot
-    Column(
-      children: [
-        FittedBox(
-          fit: BoxFit.cover,
-          child: Stack(
-            children: [
-              Text(
-                'SPOT SLOT',
-                style: AppStyle.headline2Outline,
-              ),
-              const Text(
-                'SPOT SLOT',
-                style: AppStyle.headline2,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 17),
-        Image.asset(
-          'assets/images/spotSlot.png',
-          width: 261.14,
-          height: 180,
-        )
-      ],
-    ),
-    // spot pokies
-    Column(
-      children: [
-        FittedBox(
-          fit: BoxFit.cover,
-          child: Stack(
-            children: [
-              Text(
-                'SPOT POKIES',
-                style: AppStyle.headline2Outline,
-              ),
-              const Text(
-                'SPOT POKIES',
-                style: AppStyle.headline2,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 17),
-        Image.asset(
-          'assets/images/pokies.png',
-          width: 211.92,
-          height: 180,
-        )
-      ],
-    ),
-  ];
+  final pageController = PageController();
+  int selectedGame = 0;
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          Container(
-            foregroundDecoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/spotsBackground.png'),
-                  fit: BoxFit.cover),
-            ),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/spotsBackground.png'),
+            fit: BoxFit.cover,
           ),
-          const Positioned(
-            top: 24,
-            left: 62,
-            child: BlueArrowButton(),
-          ),
-          Positioned(
-              top: 24,
-              left: 287,
-              width: MediaQuery.of(context).size.width / 2,
-              height: 280,
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: spotsList.length,
-                itemBuilder: ((context, index) {
-                  return spotsList[index];
-                }),
-              )),
-          Positioned(
-            top: 302,
-            left: 341,
-            child: Stack(
-              children: [
-                Container(
-                  width: 161,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      width: 4,
-                      color: const Color.fromRGBO(24, 64, 134, 1),
+        ),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  selectedGame == 0
+                      ? const SizedBox(width: 50)
+                      : InkwellButtonWidget(
+                          color: AppColor.red,
+                          borderColor: AppColor.darkRed,
+                          width: 48,
+                          height: 49,
+                          onTap: () {
+                            setState(() {
+                              pageController.previousPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.ease);
+                            });
+                          },
+                          assetPath: 'assets/images/backArrow_icon.png'),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      onPageChanged: (index) {
+                        setState(() {
+                          selectedGame = index;
+                        });
+                      },
+                      controller: pageController,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const OutlinedTextWidget(
+                                text: 'Spot Roulette', fontSize: 32),
+                            Image.asset('assets/images/roulette.png'),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const OutlinedTextWidget(
+                                text: 'Spot Slot', fontSize: 32),
+                            Image.asset('assets/images/spotSlot.png'),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const OutlinedTextWidget(
+                                text: 'Spot Pokies', fontSize: 32),
+                            Image.asset('assets/images/pokies.png'),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ],
                     ),
-                    color: const Color.fromRGBO(38, 121, 228, 1),
                   ),
-                  child: const Center(
-                    child: Text('Play', style: AppStyle.blueButton),
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () {},
-                    child: Container(
+                  selectedGame == 2
+                      ? const SizedBox(width: 30)
+                      : InkwellButtonWidget(
+                          color: AppColor.red,
+                          borderColor: AppColor.darkRed,
+                          width: 48,
+                          height: 49,
+                          onTap: () {
+                            setState(() {
+                              pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.ease);
+                            });
+                          },
+                          assetPath: 'assets/images/reversedArrow_icon.png'),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  child: InkwellTextButtonWidget(
+                      color: AppColor.blue,
+                      borderColor: AppColor.darkBlue,
+                      text: 'Play',
                       width: 161,
                       height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ),
+                      onTap: () {},
+                      textStyle: AppStyle.thickText),
                 ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 171,
-            left: 198,
-            child: Stack(
-              children: [
-                Container(
-                  width: 49,
-                  height: 48,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 4,
-                        color: const Color.fromRGBO(190, 23, 23, 1),
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      color: const Color.fromRGBO(238, 33, 33, 1)),
-                  child: Image.asset('assets/images/backArrow_icon.png'),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: InkwellButtonWidget(
+                    color: AppColor.blue,
+                    borderColor: AppColor.darkBlue,
+                    width: 48,
+                    height: 49,
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Container(
-                      width: 49,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
+                    assetPath: 'assets/images/backArrow_icon.png',
                   ),
                 ),
-              ],
-            ),
+              )
+            ],
           ),
-          Positioned(
-            top: 171,
-            left: 588,
-            child: Stack(
-              children: [
-                Container(
-                  width: 49,
-                  height: 48,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 4,
-                        color: const Color.fromRGBO(190, 23, 23, 1),
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      color: const Color.fromRGBO(238, 33, 33, 1)),
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationY(math.pi),
-                    child: Image.asset('assets/images/backArrow_icon.png'),
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      width: 49,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

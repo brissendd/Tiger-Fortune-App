@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tiger_fortune_app/app_style.dart';
-import 'package:tiger_fortune_app/widgets/buttons/settings_button_widget.dart';
-import 'package:tiger_fortune_app/widgets/buttons/sound_button_widget.dart';
+import 'package:tiger_fortune_app/app_theme/app_colors.dart';
+import 'package:tiger_fortune_app/app_theme/app_style.dart';
+import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
+import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
+import 'package:tiger_fortune_app/widgets/outlined_text_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,128 +16,78 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            foregroundDecoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/mainScreenBackground.png'),
-                  fit: BoxFit.cover),
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/mainScreenBackground.png'),
+            fit: BoxFit.cover,
           ),
-          Positioned(
-            top: 70,
-            left: 34,
-            child: SizedBox(
-              width: 330,
-              height: 349,
-              child: Image.asset('assets/images/tigerMainScreen.png'),
-            ),
-          ),
-          Positioned(
-            top: 43,
-            left: 326,
-            height: 96,
-            width: 192,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: Stack(
-                children: [
-                  Text('TIGER\nFORTUNE',
-                      maxLines: 2, style: AppStyle.headline1Outline),
-                  const Text('TIGER\nFORTUNE',
-                      maxLines: 2, style: AppStyle.headline1),
-                ],
+        ),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const SizedBox(
+                      width: 250,
+                      child: OutlinedTextWidget(
+                        text: 'TIGER FORTUNE',
+                        fontSize: 48,
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        InkwellTextButtonWidget(
+                          color: AppColor.red,
+                          borderColor: AppColor.darkRed,
+                          text: 'Spots',
+                          width: 240,
+                          height: 55,
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/spots');
+                          },
+                          textStyle: AppStyle.buttonText,
+                        ),
+                        const SizedBox(height: 15),
+                        InkwellTextButtonWidget(
+                          color: AppColor.red,
+                          borderColor: AppColor.darkRed,
+                          text: 'Exit',
+                          width: 240,
+                          height: 55,
+                          onTap: () {},
+                          textStyle: AppStyle.buttonText,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
-          const Positioned(
-            top: 310,
-            left: 62,
-            child: Row(
-              children: [SoundButton(), SizedBox(width: 8), SettingsButton()],
-            ),
-          ),
-          Positioned(
-            top: 238,
-            left: 298,
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: 241,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          width: 4,
-                          color: const Color.fromRGBO(190, 23, 23, 1),
-                        ),
-                        color: const Color.fromRGBO(238, 33, 33, 1),
-                      ),
-                      child: const Center(
-                        child:
-                            Text('Spots', style: AppStyle.redButton),
-                      ),
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(16),
-                        onTap: () {
-                          Navigator.of(context).pushNamed('/spots');
-                        },
-                        child: Container(
-                          width: 241,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 20, left: 70),
+                  child: InkwellButtonWidget(
+                      color: AppColor.red,
+                      borderColor: AppColor.darkRed,
+                      width: 48,
+                      height: 49,
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/settings');
+                      },
+                      assetPath: 'assets/images/settings_icon.png'),
                 ),
-                const SizedBox(height: 8),
-                Stack(
-                  children: [
-                    Container(
-                      width: 241,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          width: 4,
-                          color: const Color.fromRGBO(190, 23, 23, 1),
-                        ),
-                        color: const Color.fromRGBO(238, 33, 33, 1),
-                      ),
-                      child: const Center(
-                        child:
-                            Text('Exit', style: AppStyle.redButton),
-                      ),
-                    ),
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(16),
-                        onTap: () {},
-                        child: Container(
-                          width: 241,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

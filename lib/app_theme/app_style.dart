@@ -35,13 +35,13 @@ abstract class AppStyle {
     fontStyle: FontStyle.italic,
     color: Color.fromRGBO(238, 33, 33, 1),
   );
-  static const TextStyle redButton = TextStyle(
+  static const TextStyle buttonText = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,
     fontSize: 16,
     color: Color.fromRGBO(252, 252, 252, 1),
   );
-  static const TextStyle blueButton = TextStyle(
+  static const TextStyle thickText = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w700,
     fontSize: 20,

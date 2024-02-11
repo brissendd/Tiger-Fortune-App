@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/pages/home_page.dart';
 import 'package:flutter/services.dart';
+import 'package:tiger_fortune_app/pages/pause_page.dart';
 import 'package:tiger_fortune_app/pages/settings_page.dart';
 import 'package:tiger_fortune_app/presentation/screen/spot_slot_page.dart';
 import 'package:tiger_fortune_app/pages/spots_page.dart';
@@ -39,15 +40,18 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/settings': (context) => const SettingsPage(),
         '/spots': (context) => const SpotsPage(),
-        '/spotSlot':(context) => FutureBuilder(future: DI.getInstance().init(), builder: (context, snapshot){
-          if (snapshot.connectionState == ConnectionState.done){
-            return const SpotSlotPage();
-          } else{
-            return const CircularProgressIndicator();
-          }
-        }),
+        '/spotSlot': (context) => FutureBuilder(
+            future: DI.getInstance().init(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return const SpotSlotPage();
+              } else {
+                return const CircularProgressIndicator();
+              }
+            }),
+        '/pause': (context) => const PausePage(),
       },
-      initialRoute: '/spotSlot',
+      initialRoute: '/',
     );
   }
 }

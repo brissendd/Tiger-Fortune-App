@@ -9,11 +9,27 @@ class BalanceRepositoryImpl extends BalanceRepository {
   BalanceRepositoryImpl(this.box);
 
   @override
-  int getLastBalance() => box.get(boxKey, defaultValue: 50000);
+  int getLastBalance() => box.get(boxKey, defaultValue: 0);
 
   @override
-  Future<int> saveBalance(int count) async {
-    box.put(boxKey, count);
-    return count;
+  Future<int> saveBalance(int balance) async {
+    box.put(boxKey, balance);
+    return balance;
+  }
+}
+
+class LastClaimTimeRepositoryImpl extends LastClaimTimeRepository {
+    static const lastClaimTimeKey = 'lastClaimTime';
+  final Box box;
+
+  LastClaimTimeRepositoryImpl(this.box);
+
+  @override
+  int getLastClaimTime() => box.get(lastClaimTimeKey, defaultValue: 0);
+
+  @override
+  Future<int> saveLastClaimTime(int lastClaimTime) async {
+    box.put(lastClaimTimeKey, lastClaimTime);
+    return lastClaimTime;
   }
 }

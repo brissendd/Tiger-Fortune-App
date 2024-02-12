@@ -9,7 +9,10 @@ class DI {
   static DI? instance;
 
   late BalanceRepository balanceRepository;
+  late LastClaimTimeRepository lastClaimTimeRepository;
+
   late BalanceCase balanceCase;
+  late LastClaimTimeCase lastClaimTimeCase;
 
   DI._();
 
@@ -22,5 +25,7 @@ class DI {
     Hive.init(directory.path);
     balanceRepository = BalanceRepositoryImpl(await Hive.openBox('balance'));
     balanceCase = BalanceCaseImpl(balanceRepository);
+    lastClaimTimeRepository = LastClaimTimeRepositoryImpl(await Hive.openBox('lastClaimTime'));
+    lastClaimTimeCase = LastClaimTimeCaseImpl(lastClaimTimeRepository);
   }
 }

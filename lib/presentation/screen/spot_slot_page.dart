@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
-import 'package:tiger_fortune_app/presentation/bloc/spots_page_cubit.dart';
+import 'package:tiger_fortune_app/presentation/bloc/balance_cubit.dart';
 // import 'package:tiger_fortune_app/presentation/bloc/spots_page_state.dart';
 
 class SpotSlotPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class SpotSlotPage extends StatefulWidget {
 }
 
 class _SpotSlotPageState extends State<SpotSlotPage> {
-  final SpotSlotCubit cubit = SpotSlotCubit();
+  final BalanceCubit cubit = BalanceCubit();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +25,8 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                   image: AssetImage('assets/images/spotSlotBackground.png'),
                   fit: BoxFit.cover),
             ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
           ),
           Positioned(
             top: MediaQuery.of(context).size.width * 0.045,

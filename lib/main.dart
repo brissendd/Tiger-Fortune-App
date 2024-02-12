@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiger_fortune_app/pages/daily_reward_page.dart';
 import 'package:tiger_fortune_app/pages/home_page.dart';
 import 'package:flutter/services.dart';
 import 'package:tiger_fortune_app/pages/pause_page.dart';
@@ -37,19 +38,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       routes: {
-        '/': (context) => const HomePage(),
-        '/settings': (context) => const SettingsPage(),
-        '/spots': (context) => const SpotsPage(),
-        '/spotSlot': (context) => FutureBuilder(
+        '/': (context) => FutureBuilder(
             future: DI.getInstance().init(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                return const SpotSlotPage();
+                return const HomePage();
               } else {
                 return const CircularProgressIndicator();
               }
             }),
+        '/settings': (context) => const SettingsPage(),
+        '/spots': (context) => const SpotsPage(),
+        '/spotSlot': (context) => SpotSlotPage(),
         '/pause': (context) => const PausePage(),
+        '/daily': (context) => const DailyRewardPage(),
       },
       initialRoute: '/',
     );

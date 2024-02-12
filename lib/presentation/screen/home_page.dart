@@ -84,6 +84,16 @@ class _HomePageState extends State<HomePage> {
               ),
               Align(
                 alignment: Alignment.centerRight,
+                child: InkwellTextButtonWidget(
+                    color: AppColor.blue,
+                    borderColor: AppColor.darkBlue,
+                    text: 'Open reward',
+                    width: 162,
+                    height: 56,
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/daily');
+                    },
+                    textStyle: AppStyle.buttonText),
               )
             ],
           ),

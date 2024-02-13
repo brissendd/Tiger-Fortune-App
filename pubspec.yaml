@@ -33,6 +33,10 @@ flutter:
   assets:
     - assets/images/
     - assets/images/daily_reward/
+    - assets/images/games_elements/
+    - assets/images/spot_slot/
+    - assets/images/win/
+
 
   fonts:
     - family: Roboto

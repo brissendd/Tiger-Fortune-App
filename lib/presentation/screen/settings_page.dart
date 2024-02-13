@@ -92,6 +92,7 @@ class SettingsPage extends StatelessWidget {
                   'App icon',
                   style: AppStyle.buttonText,
                 ),
+                SizedBox(height: 8),
                 LogoChoosing(),
               ],
             ),

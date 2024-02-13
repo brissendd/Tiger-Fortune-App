@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 20, left: 70),
+                  padding: const EdgeInsets.only(bottom: 20, left: 70),
                   child: InkwellButtonWidget(
                       color: AppColor.red,
                       borderColor: AppColor.darkRed,

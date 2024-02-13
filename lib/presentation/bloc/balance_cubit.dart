@@ -19,14 +19,16 @@ class BalanceCubit extends Cubit<BalanceState> {
 
   Future<void> claimReward() async {
     final currentTime = DateTime.now().millisecondsSinceEpoch;
-    if (currentTime - state.lastClaimTime < 24 * 60 * 60 * 1000) {
-      print('you have claimed your reward');
-    } else {
-      final _savedValue = await balanceCases.saveBalance(state.balance + 200);
-      final _timeLeft = await lastClaimTimeCases.saveLastClaimTime(
-          state.lastClaimTime - state.lastClaimTime + currentTime);
-      emit(BalanceState(balance: _savedValue, lastClaimTime: _timeLeft));
-      print('YEY, now you have ${state.balance}');
-    }
+    final _savedValue = await balanceCases.saveBalance(state.balance + 200);
+    final _timeLeft = await lastClaimTimeCases.saveLastClaimTime(
+        state.lastClaimTime - state.lastClaimTime + currentTime);
+    emit(BalanceState(balance: _savedValue, lastClaimTime: _timeLeft));
+    // ignore: avoid_print
+    print('YEY, now you have ${state.balance}');
+  }
+
+  getLastBalance() {
+    final balance = balanceCases.getLastBalance();
+    return balance;
   }
 }

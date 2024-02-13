@@ -55,7 +55,7 @@ class _SpotsPageState extends State<SpotsPage> {
                             });
                           },
                           assetPath: 'assets/images/backArrow_icon.png'),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width * 0.45,
                     child: PageView(
                       physics: const NeverScrollableScrollPhysics(),
@@ -123,7 +123,9 @@ class _SpotsPageState extends State<SpotsPage> {
                       text: 'Play',
                       width: 161,
                       height: 56,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/spotSlot');
+                      },
                       textStyle: AppStyle.thickText),
                 ),
               ),

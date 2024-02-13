@@ -35,22 +35,6 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: InkwellButtonWidget(
-                color: AppColor.blue,
-                borderColor: AppColor.darkBlue,
-                width: 48,
-                height: 49,
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                assetPath: 'assets/images/backArrow_icon.png',
-              ),
-            ),
-          ),
           Center(
               child: BlocBuilder<BalanceCubit, BalanceState>(
             bloc: cubit,
@@ -126,11 +110,11 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
                       child: Image.asset(
                           'assets/images/daily_reward/large-envelope-close.png'),
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.topRight,
-                      child: Container(
+                      child: SizedBox(
                         width: 200,
-                        child: const OutlinedTextWidget(
+                        child: OutlinedTextWidget(
                           text: 'Daily Reward',
                           fontSize: 48,
                         ),
@@ -172,7 +156,23 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
                 );
               }
             },
-          ))
+          )),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(30),
+              child: InkwellButtonWidget(
+                color: AppColor.blue,
+                borderColor: AppColor.darkBlue,
+                width: 48,
+                height: 49,
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                assetPath: 'assets/images/backArrow_icon.png',
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -130,6 +130,7 @@ class _SpotsPageState extends State<SpotsPage> {
                           case 1:
                             Navigator.of(context).pushNamed('/spotSlot');
                           case 2:
+                            Navigator.of(context).pushNamed('/pokies');
                         }
                       },
                       textStyle: AppStyle.thickText),

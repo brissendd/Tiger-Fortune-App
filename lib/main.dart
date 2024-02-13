@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/presentation/screen/daily_reward_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/games/pokies_page.dart';
 import 'package:tiger_fortune_app/presentation/screen/games/roulette_page.dart';
 import 'package:tiger_fortune_app/presentation/screen/home_page.dart';
 import 'package:flutter/services.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/spots': (context) => const SpotsPage(),
         '/spotSlot': (context) => const SpotSlotPage(),
         '/roulette': (context) => const RoulettePage(),
+        '/pokies': (context) => const PokiesPage(),        
         '/pause': (context) => const PausePage(),
         '/daily': (context) => const DailyRewardPage(),
         '/win': (context) => const WinPage(),

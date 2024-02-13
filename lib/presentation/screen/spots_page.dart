@@ -124,7 +124,13 @@ class _SpotsPageState extends State<SpotsPage> {
                       width: 161,
                       height: 56,
                       onTap: () {
-                        Navigator.of(context).pushNamed('/spotSlot');
+                        switch (selectedGame) {
+                          case 0:
+                            Navigator.of(context).pushNamed('/roulette');
+                          case 1:
+                            Navigator.of(context).pushNamed('/spotSlot');
+                          case 2:
+                        }
                       },
                       textStyle: AppStyle.thickText),
                 ),

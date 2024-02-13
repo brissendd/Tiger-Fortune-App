@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
 import 'package:tiger_fortune_app/presentation/bloc/balance_cubit.dart';
-import 'package:tiger_fortune_app/presentation/screen/win_pages/slot_win_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/win_pages/win_page.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 
@@ -17,6 +17,8 @@ class SpotSlotPage extends StatefulWidget {
 
 class _SpotSlotPageState extends State<SpotSlotPage> {
   final BalanceCubit cubit = BalanceCubit();
+  int balance = BalanceCubit().getLastBalance();
+
   late int win;
   int bet = 0;
 
@@ -49,7 +51,6 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
   }
 
   void checkWin() async {
-    int balance = cubit.getLastBalance();
 
     Future.delayed(const Duration(seconds: 1));
     if (selectedImages.toSet().length == 1) {
@@ -69,13 +70,15 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
           balance += bet * 5;
           win = bet * 5;
       }
-      Navigator.of(context).pushNamed('/win', arguments: {'type': GameType.slot, 'winAmount': win});
+      Navigator.of(context).pushNamed('/win',
+          arguments: {'type': GameType.slot, 'winAmount': win});
     }
   }
 
   @override
   Widget build(BuildContext context) {
     int balance = cubit.getLastBalance();
+
     void incrementBet() {
       setState(() {
         if (balance > bet + 200) {

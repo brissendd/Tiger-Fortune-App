@@ -50,15 +50,14 @@ class _WinPageState extends State<WinPage> {
         width: MediaQuery.of(context).size.width,
         child: SafeArea(
           child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _type == GameType.roulette
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const OutlinedTextWidget(
-                            text: 'Spot Roulette', fontSize: 32),
+                            text: 'Spot\nRoulette', fontSize: 32),
                         const SizedBox(height: 25),
                         Image.asset('assets/images/win/mini-roulette.png'),
                       ],
@@ -90,7 +89,7 @@ class _WinPageState extends State<WinPage> {
                       const OutlinedTextWidget(text: 'you win', fontSize: 32),
                       Text(
                         '$_winAmount',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.w700,
                             color: AppColor.white),
@@ -128,7 +127,11 @@ class _WinPageState extends State<WinPage> {
                   ),
                 ],
               ),
-              Image.asset('assets/images/win/win-column.png'),
+              Row(
+                children: [
+                  Image.asset('assets/images/win/win-column.png'),
+                ],
+              ),
             ],
           ),
         ),

@@ -11,7 +11,7 @@ import 'package:tiger_fortune_app/presentation/screen/settings_page.dart';
 import 'package:tiger_fortune_app/presentation/screen/games/spotslot_page.dart';
 import 'package:tiger_fortune_app/presentation/screen/spots_page.dart';
 import 'package:tiger_fortune_app/di.dart';
-import 'package:tiger_fortune_app/presentation/screen/win_pages/win_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/win_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,

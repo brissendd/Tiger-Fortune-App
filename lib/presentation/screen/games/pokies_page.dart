@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
 import 'package:tiger_fortune_app/presentation/bloc/balance_cubit.dart';
-import 'package:tiger_fortune_app/presentation/screen/win_pages/win_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/win_page.dart';
+import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 
 class PokiesPage extends StatefulWidget {
@@ -20,6 +20,9 @@ class _PokiesPageState extends State<PokiesPage> {
   int balance = BalanceCubit().getLastBalance();
   late int win;
   int bet = 0;
+  bool isSpinning = false;
+  final Random _random = Random();
+  List<int> selectedImages = [0, 0, 0];
 
   void incrementBet() {
     setState(() {
@@ -31,7 +34,7 @@ class _PokiesPageState extends State<PokiesPage> {
 
   void decrementBet() {
     setState(() {
-      if (bet > 200) {
+      if (bet >= 200) {
         bet -= 200;
       }
     });
@@ -43,12 +46,9 @@ class _PokiesPageState extends State<PokiesPage> {
     'assets/images/games_elements/3.png',
   ];
 
-  final Random _random = Random();
-  bool isSpinning = false;
-  List<int> selectedImages = [0, 0, 0];
-
   Future<void> spin() async {
     if (!isSpinning) {
+      cubit.balanceCases.saveBalance(balance -= bet);
       isSpinning = true;
       for (int i = 0; i < 5; i++) {
         setState(() {
@@ -58,7 +58,9 @@ class _PokiesPageState extends State<PokiesPage> {
         });
         await Future.delayed(const Duration(seconds: 1));
       }
-      isSpinning = false;
+      setState(() {
+        isSpinning = false;
+      });
       checkWin();
     }
   }
@@ -70,18 +72,16 @@ class _PokiesPageState extends State<PokiesPage> {
 
       switch (result) {
         case 0:
-          balance += bet * 10;
           win = bet * 10;
         case 1:
-          balance += bet * 20;
           win = bet * 20;
         case 2:
-          balance += bet * 15;
           win = bet * 15;
       }
       Navigator.of(context).pushNamed('/win',
           arguments: {'type': GameType.pokies, 'winAmount': win});
     }
+    cubit.balanceCases.saveBalance(balance += win);
   }
 
   @override
@@ -117,7 +117,7 @@ class _PokiesPageState extends State<PokiesPage> {
                           Image.asset(
                               'assets/images/games_elements/column.png'),
                           Align(
-                            alignment: Alignment(0, -0.6),
+                            alignment: const Alignment(0, -0.6),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -126,7 +126,7 @@ class _PokiesPageState extends State<PokiesPage> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
-                                    color: AppColor.blue,
+                                    color: AppColor.yellow,
                                   ),
                                 ),
                                 Text(
@@ -224,7 +224,7 @@ class _PokiesPageState extends State<PokiesPage> {
                               Image.asset(
                                   'assets/images/games_elements/balance.png'),
                               Align(
-                                alignment: Alignment(0, 0.3),
+                                alignment: const Alignment(0, 0.3),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -237,7 +237,7 @@ class _PokiesPageState extends State<PokiesPage> {
                                       ),
                                     ),
                                     Text(
-                                      '$balance',
+                                      '${cubit.getLastBalance()}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontSize: 16,
@@ -252,35 +252,68 @@ class _PokiesPageState extends State<PokiesPage> {
                         ),
                         Row(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                decrementBet();
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/images/games-elements/minus.svg'),
-                            ),
-                            const SizedBox(width: 20),
-                            GestureDetector(
-                              onTap: () {
-                                incrementBet();
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/images/games-elements/plus.svg'),
-                            ),
+                            isSpinning
+                                ? InkwellButtonWidget(
+                                    color: AppColor.disabledButton,
+                                    borderColor: AppColor.disabledButtonBorder,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      decrementBet();
+                                    },
+                                    assetPath: 'assets/images/minus_icon.png')
+                                : InkwellButtonWidget(
+                                    color: AppColor.red,
+                                    borderColor: AppColor.darkRed,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      decrementBet();
+                                    },
+                                    assetPath: 'assets/images/minus_icon.png'),
+                            const SizedBox(width: 4),
+                            isSpinning
+                                ? InkwellButtonWidget(
+                                    color: AppColor.disabledButton,
+                                    borderColor: AppColor.disabledButtonBorder,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/plus_icon.png')
+                                : InkwellButtonWidget(
+                                    color: AppColor.red,
+                                    borderColor: AppColor.darkRed,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/plus_icon.png'),
                           ],
                         ),
                         const SizedBox(height: 30),
-                        InkwellTextButtonWidget(
-                          color: AppColor.blue,
-                          borderColor: AppColor.darkBlue,
-                          text: 'SPIN',
-                          textStyle: AppStyle.thickText,
-                          width: 140,
-                          height: 55,
-                          onTap: () async {
-                            spin();
-                          },
-                        ),
+                        isSpinning || bet == 0 || balance < bet
+                            ? const InkwellTextButtonWidget(
+                                color: AppColor.disabledButton,
+                                borderColor: AppColor.disabledButtonBorder,
+                                text: 'SPIN',
+                                textStyle: AppStyle.thickText,
+                                width: 140,
+                                height: 55,
+                                onTap: null,
+                              )
+                            : InkwellTextButtonWidget(
+                                color: AppColor.blue,
+                                borderColor: AppColor.darkBlue,
+                                text: 'SPIN',
+                                textStyle: AppStyle.thickText,
+                                width: 140,
+                                height: 55,
+                                onTap: () {
+                                  spin();
+                                }),
                       ],
                     ),
                   ],
@@ -289,14 +322,16 @@ class _PokiesPageState extends State<PokiesPage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/pause');
-                      },
-                      child:
-                          SvgPicture.asset('assets/images/pause_icon.png')),
-                ),
+                    padding: const EdgeInsets.all(15),
+                    child: InkwellButtonWidget(
+                        color: AppColor.blue,
+                        borderColor: AppColor.darkBlue,
+                        width: 48,
+                        height: 49,
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/pause');
+                        },
+                        assetPath: 'assets/images/pause_icon.png')),
               ),
             ],
           ),

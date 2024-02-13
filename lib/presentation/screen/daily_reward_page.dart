@@ -18,6 +18,7 @@ class DailyRewardPage extends StatefulWidget {
 
 class _DailyRewardPageState extends State<DailyRewardPage> {
   final BalanceCubit cubit = BalanceCubit();
+  int currentTime = BalanceCubit().getCurrentTime();
 
   @override
   Widget build(BuildContext context) {
@@ -39,119 +40,132 @@ class _DailyRewardPageState extends State<DailyRewardPage> {
               child: BlocBuilder<BalanceCubit, BalanceState>(
             bloc: cubit,
             builder: (context, state) {
-              int currentTime = cubit.getCurrentTime();
               if (currentTime - state.lastClaimTime < 24 * 60 * 60 * 1000) {
-                return Stack(
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Image.asset(
-                          'assets/images/daily_reward/large-envelope-open.png'),
-                    ),
-                    const Align(
-                      alignment: Alignment.topRight,
-                      child: SizedBox(
-                        width: 200,
-                        child: OutlinedTextWidget(
-                          text: 'Daily Reward',
-                          fontSize: 48,
-                        ),
-                      ),
-                    ),
+                    Image.asset(
+                        'assets/images/daily_reward/large-envelope-open.png'),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: RichText(
-                        overflow: TextOverflow.visible,
-                        softWrap: false,
-                        text: const TextSpan(
-                          text: 'We give you ',
-                          style: AppStyle.dailyRewardWhite,
-                          children: [
-                            TextSpan(
-                                text: '200 coins',
-                                style: AppStyle.dailyRewardRed),
-                            TextSpan(
-                                text:
-                                    '\nfor daily login to the\napplication. We are\nwaiting for you.',
-                                style: AppStyle.dailyRewardWhite),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CountdownTimer(
-                            textStyle: AppStyle.dailyRewardBlue,
-                            endTime: DateTime.now().millisecondsSinceEpoch +
-                                (24 * 60 * 60 * 1000 -
-                                    (currentTime - state.lastClaimTime)),
+                          const SizedBox(
+                            width: 200,
+                            child: OutlinedTextWidget(
+                              text: 'Daily Reward',
+                              fontSize: 48,
+                            ),
                           ),
-                          const InkwellTextButtonWidget(
-                              color: Color.fromRGBO(181, 181, 181, 1),
-                              borderColor: Color.fromRGBO(128, 128, 128, 1),
-                              text: 'OPEN',
-                              width: 140,
-                              height: 56,
-                              onTap: null,
-                              textStyle: AppStyle.thickText),
+                          RichText(
+                            overflow: TextOverflow.visible,
+                            softWrap: false,
+                            text: const TextSpan(
+                              text: 'We give you ',
+                              style: AppStyle.dailyRewardWhite,
+                              children: [
+                                TextSpan(
+                                    text: '200 coins',
+                                    style: AppStyle.dailyRewardRed),
+                                TextSpan(
+                                    text:
+                                        '\nfor daily login to the\napplication. We are\nwaiting for you.',
+                                    style: AppStyle.dailyRewardWhite),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 50),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'You can open daily',
+                                style: AppStyle.dailyRewardWhite,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'reward in ',
+                                    style: AppStyle.dailyRewardWhite,
+                                  ),
+                                  CountdownTimer(
+                                    textStyle: AppStyle.dailyRewardBlue,
+                                    endTime:
+                                        DateTime.now().millisecondsSinceEpoch +
+                                            (24 * 60 * 60 * 1000 -
+                                                (currentTime -
+                                                    state.lastClaimTime)),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              const InkwellTextButtonWidget(
+                                  color: Color.fromRGBO(181, 181, 181, 1),
+                                  borderColor: Color.fromRGBO(128, 128, 128, 1),
+                                  text: 'OPEN',
+                                  width: 140,
+                                  height: 56,
+                                  onTap: null,
+                                  textStyle: AppStyle.thickText),
+                            ],
+                          )
                         ],
                       ),
-                    )
+                    ),
                   ],
                 );
               } else {
-                return Stack(
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
+                      widthFactor: 0.8,
                       child: Image.asset(
                           'assets/images/daily_reward/large-envelope-close.png'),
                     ),
-                    const Align(
-                      alignment: Alignment.topRight,
-                      child: SizedBox(
-                        width: 200,
-                        child: OutlinedTextWidget(
-                          text: 'Daily Reward',
-                          fontSize: 48,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 200,
+                          child: OutlinedTextWidget(
+                            text: 'Daily Reward',
+                            fontSize: 48,
+                          ),
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: RichText(
-                        overflow: TextOverflow.visible,
-                        softWrap: false,
-                        text: const TextSpan(
-                          text: 'Every ',
-                          style: AppStyle.dailyRewardWhite,
-                          children: [
-                            TextSpan(
-                                text: '24 hours ',
-                                style: AppStyle.dailyRewardBlue),
-                            TextSpan(
-                                text: 'you\ncan get your daily\nreward.',
-                                style: AppStyle.dailyRewardWhite),
-                          ],
+                        RichText(
+                          overflow: TextOverflow.visible,
+                          softWrap: false,
+                          text: const TextSpan(
+                            text: 'Every ',
+                            style: AppStyle.dailyRewardWhite,
+                            children: [
+                              TextSpan(
+                                  text: '24 hours ',
+                                  style: AppStyle.dailyRewardBlue),
+                              TextSpan(
+                                  text: 'you\ncan get your daily\nreward.',
+                                  style: AppStyle.dailyRewardWhite),
+                            ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 100),
+                        InkwellTextButtonWidget(
+                            color: AppColor.blue,
+                            borderColor: AppColor.darkBlue,
+                            text: 'OPEN',
+                            width: 140,
+                            height: 56,
+                            onTap: () {
+                              cubit.claimReward();
+                            },
+                            textStyle: AppStyle.thickText)
+                      ],
                     ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: InkwellTextButtonWidget(
-                          color: AppColor.blue,
-                          borderColor: AppColor.darkBlue,
-                          text: 'OPEN',
-                          width: 140,
-                          height: 56,
-                          onTap: () {
-                            cubit.claimReward();
-                          },
-                          textStyle: AppStyle.thickText),
-                    )
                   ],
                 );
               }

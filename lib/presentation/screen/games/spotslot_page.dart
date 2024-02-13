@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
 import 'package:tiger_fortune_app/presentation/bloc/balance_cubit.dart';
-import 'package:tiger_fortune_app/presentation/screen/win_pages/win_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/win_page.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 
@@ -18,9 +18,9 @@ class SpotSlotPage extends StatefulWidget {
 class _SpotSlotPageState extends State<SpotSlotPage> {
   final BalanceCubit cubit = BalanceCubit();
   int balance = BalanceCubit().getLastBalance();
-
   late int win;
   int bet = 0;
+  bool isSpinning = false;
 
   final List<String> images = [
     'assets/images/games_elements/1.png',
@@ -30,11 +30,11 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
   ];
 
   final Random _random = Random();
-  bool isSpinning = false;
   List<int> selectedImages = [0, 0, 0, 0];
 
   Future<void> spin() async {
     if (!isSpinning) {
+      cubit.balanceCases.saveBalance(balance -= bet);
       isSpinning = true;
       for (int i = 0; i < 5; i++) {
         setState(() {
@@ -45,34 +45,32 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
         });
         await Future.delayed(const Duration(seconds: 1));
       }
-      isSpinning = false;
+      setState(() {
+        isSpinning = false;
+      });
       checkWin();
     }
   }
 
   void checkWin() async {
-
     Future.delayed(const Duration(seconds: 1));
     if (selectedImages.toSet().length == 1) {
       final int result = selectedImages[0];
 
       switch (result) {
         case 0:
-          balance += bet * 10;
           win = bet * 10;
         case 1:
-          balance += bet * 20;
           win = bet * 20;
         case 2:
-          balance += bet * 15;
           win = bet * 15;
         case 3:
-          balance += bet * 5;
           win = bet * 5;
       }
       Navigator.of(context).pushNamed('/win',
           arguments: {'type': GameType.slot, 'winAmount': win});
     }
+    cubit.balanceCases.saveBalance(balance += win);
   }
 
   @override
@@ -89,7 +87,7 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
 
     void decrementBet() {
       setState(() {
-        if (bet > 200) {
+        if (bet >= 200) {
           bet -= 200;
         }
       });
@@ -125,17 +123,17 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
+                                const Text(
                                   'BET',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
-                                    color: AppColor.blue,
+                                    color: AppColor.yellow,
                                   ),
                                 ),
                                 Text(
                                   '$bet',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
                                     color: AppColor.white,
@@ -248,7 +246,7 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'BALANCE',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w900,
@@ -257,8 +255,8 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                                       ),
                                     ),
                                     Text(
-                                      '$balance',
-                                      style: TextStyle(
+                                      '${cubit.getLastBalance()}',
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontSize: 16,
                                         color: AppColor.white,
@@ -272,57 +270,72 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                         ),
                         Row(
                           children: [
-                            InkwellButtonWidget(
-                                color: AppColor.red,
-                                borderColor: AppColor.darkRed,
-                                width: 68,
-                                height: 56,
-                                onTap: () {
-                                  decrementBet();
-                                },
-                                assetPath:
-                                    'assets/images/games_elements/minus_icon.png'),
-                            const SizedBox(width: 20),
-                            InkwellButtonWidget(
-                                color: AppColor.red,
-                                borderColor: AppColor.darkRed,
-                                width: 68,
-                                height: 56,
-                                onTap: () {
-                                  incrementBet();
-                                },
-                                assetPath:
-                                    'assets/images/games_elements/plus_icon.png'),
+                            isSpinning
+                                ? InkwellButtonWidget(
+                                    color: AppColor.disabledButton,
+                                    borderColor: AppColor.disabledButtonBorder,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      decrementBet();
+                                    },
+                                    assetPath: 'assets/images/minus_icon.png')
+                                : InkwellButtonWidget(
+                                    color: AppColor.red,
+                                    borderColor: AppColor.darkRed,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      decrementBet();
+                                    },
+                                    assetPath: 'assets/images/minus_icon.png'),
+                            const SizedBox(width: 4),
+                            isSpinning
+                                ? InkwellButtonWidget(
+                                    color: AppColor.disabledButton,
+                                    borderColor: AppColor.disabledButtonBorder,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/plus_icon.png')
+                                : InkwellButtonWidget(
+                                    color: AppColor.red,
+                                    borderColor: AppColor.darkRed,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/plus_icon.png'),
                           ],
                         ),
                         const SizedBox(height: 30),
-                        InkwellTextButtonWidget(
-                            color: AppColor.blue,
-                            borderColor: AppColor.darkBlue,
-                            text: 'SPIN',
-                            width: 140,
-                            height: 55,
-                            onTap: () {
-                              spin();
-                            },
-                            textStyle: AppStyle.thickText)
+                        isSpinning || bet == 0 || balance < bet
+                            ? const InkwellTextButtonWidget(
+                                color: AppColor.disabledButton,
+                                borderColor: AppColor.disabledButtonBorder,
+                                text: 'SPIN',
+                                textStyle: AppStyle.thickText,
+                                width: 140,
+                                height: 55,
+                                onTap: null,
+                              )
+                            : InkwellTextButtonWidget(
+                                color: AppColor.blue,
+                                borderColor: AppColor.darkBlue,
+                                text: 'SPIN',
+                                textStyle: AppStyle.thickText,
+                                width: 140,
+                                height: 55,
+                                onTap: () {
+                                  spin();
+                                }),
                       ],
                     ),
                   ],
                 ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: GestureDetector(
-                        onTap: () {
-                          // context.router
-                          //     .popAndPush(MenuRoute(type: GameType.slot));
-                        },
-                        child: Container()
-                        // SvgPicture.asset('assets/images/elements/menu.svg'),
-                        )),
               ),
               Align(
                 alignment: Alignment.topRight,

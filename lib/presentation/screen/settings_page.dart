@@ -4,6 +4,7 @@ import 'package:tiger_fortune_app/app_theme/app_style.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/logo_choosing.dart';
+import 'package:tiger_fortune_app/widgets/outlined_text_widget.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -14,7 +15,7 @@ class SettingsPage extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(81, 31, 31, 1),
       body: Stack(
         children: [
-          Positioned(
+          const Positioned(
             width: 131,
             height: 32,
             top: 32,
@@ -23,14 +24,7 @@ class SettingsPage extends StatelessWidget {
               fit: BoxFit.fitWidth,
               child: Stack(
                 children: [
-                  Text(
-                    'SETTINGS',
-                    style: AppStyle.headline2Outline,
-                  ),
-                  const Text(
-                    'SETTINGS',
-                    style: AppStyle.headline2,
-                  ),
+                  OutlinedTextWidget(text: 'Settings', fontSize: 32)
                 ],
               ),
             ),

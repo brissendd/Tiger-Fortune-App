@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
@@ -48,7 +50,9 @@ class PausePage extends StatelessWidget {
                     text: 'Exit',
                     width: 241,
                     height: 56,
-                    onTap: () {},
+                    onTap: () {
+                      exit(0);
+                    },
                     textStyle: AppStyle.buttonText),
               ],
             ),

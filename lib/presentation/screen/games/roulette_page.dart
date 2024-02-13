@@ -6,7 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
 import 'package:tiger_fortune_app/presentation/bloc/balance_cubit.dart';
-import 'package:tiger_fortune_app/presentation/screen/win_pages/win_page.dart';
+import 'package:tiger_fortune_app/presentation/screen/win_page.dart';
+import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 
 class RoulettePage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _RoulettePageState extends State<RoulettePage> {
   int balance = BalanceCubit().getLastBalance();
   late int win;
   int bet = 0;
+  bool isSpinning = false;
 
   void incrementBet() {
     setState(() {
@@ -33,7 +35,7 @@ class _RoulettePageState extends State<RoulettePage> {
 
   void decrementBet() {
     setState(() {
-      if (bet > 200) {
+      if (bet >= 200) {
         bet -= 200;
       }
     });
@@ -57,48 +59,36 @@ class _RoulettePageState extends State<RoulettePage> {
   ];
 
   void onSpinEnd(int result) async {
+    isSpinning = true;
+
     switch (result) {
       case 0:
-        balance += bet * 20;
         win = bet * 20;
       case 1:
-        balance += bet + 100;
         win = 100;
       case 2:
-        balance += bet * 10;
         win = bet * 10;
       case 3:
-        balance += bet + 50;
         win = 50;
       case 4:
-        balance += bet * 20;
         win = bet * 20;
       case 5:
-        balance += bet + 0;
         win = 0;
       case 6:
-        balance += bet * 15;
         win = bet * 15;
       case 7:
-        balance += bet + 20;
         win = 20;
       case 8:
-        balance += bet * 5;
         win = bet * 5;
       case 9:
-        balance += bet + 0;
         win = 0;
       case 10:
-        balance += bet + 10000;
         win = 10000;
       case 11:
-        balance += bet + 20;
         win = 20;
       case 12:
-        balance += bet * 10;
         win = bet * 10;
       case 13:
-        balance += bet + 0;
         win = 0;
     }
   }
@@ -146,11 +136,11 @@ class _RoulettePageState extends State<RoulettePage> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
-                                    color: AppColor.blue,
+                                    color: AppColor.yellow,
                                   ),
                                 ),
                                 Text(
-                                  '${bet}',
+                                  '$bet',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
@@ -166,7 +156,8 @@ class _RoulettePageState extends State<RoulettePage> {
                     Stack(
                       alignment: Alignment.center,
                       children: [
-                        SvgPicture.asset('assets/images/roulette/circal-bg.svg'),
+                        SvgPicture.asset(
+                            'assets/images/roulette/circal-bg.svg'),
                         SizedBox(
                           height: 275,
                           width: 275,
@@ -245,7 +236,7 @@ class _RoulettePageState extends State<RoulettePage> {
                                       ),
                                     ),
                                     Text(
-                                      '$balance',
+                                      '${cubit.getLastBalance()}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontSize: 16,
@@ -260,52 +251,89 @@ class _RoulettePageState extends State<RoulettePage> {
                         ),
                         Row(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                decrementBet();
-                              },
-                              child: Image.asset(
-                                  'assets/images/games_elements/minus_icon.png'),
-                            ),
-                            const SizedBox(width: 20),
-                            GestureDetector(
-                              onTap: () {
-                                incrementBet();
-                              },
-                              child: Image.asset(
-                                  'assets/images/games_elements/plus_icon.png'),
-                            ),
+                            isSpinning
+                                ? InkwellButtonWidget(
+                                    color: AppColor.disabledButton,
+                                    borderColor: AppColor.disabledButtonBorder,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      decrementBet();
+                                    },
+                                    assetPath: 'assets/images/minus_icon.png')
+                                : InkwellButtonWidget(
+                                    color: AppColor.red,
+                                    borderColor: AppColor.darkRed,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/minus_icon.png'),
+                            const SizedBox(width: 4),
+                            isSpinning
+                                ? InkwellButtonWidget(
+                                    color: AppColor.disabledButton,
+                                    borderColor: AppColor.disabledButtonBorder,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/plus_icon.png')
+                                : InkwellButtonWidget(
+                                    color: AppColor.red,
+                                    borderColor: AppColor.darkRed,
+                                    width: 68,
+                                    height: 56,
+                                    onTap: () {
+                                      incrementBet();
+                                    },
+                                    assetPath: 'assets/images/plus_icon.png'),
                           ],
                         ),
                         const SizedBox(height: 30),
-                        InkwellTextButtonWidget(
-                          color: AppColor.blue,
-                          borderColor: AppColor.darkBlue,
-                          text: 'SPIN',
-                          textStyle: AppStyle.thickText,
-                          width: 140,
-                          height: 55,
-                          onTap: () async {
-                            if (balance > 200) {
-                              balance -= 200;
-                              setState(() {
-                                final int result =
-                                    Fortune.randomInt(0, items.length);
-                                print(result);
-                                controller.add(result);
-                                onSpinEnd(result);
-                                Future.delayed(const Duration(seconds: 6), () {
-                                  bet = 0;
-                                  Navigator.of(context).pushNamed('/win',
-                                      arguments: {
-                                        'type': GameType.roulette,
-                                        'winAmount': win
+                        isSpinning || bet == 0 || balance < bet
+                            ? const InkwellTextButtonWidget(
+                                color: AppColor.disabledButton,
+                                borderColor: AppColor.disabledButtonBorder,
+                                text: 'SPIN',
+                                textStyle: AppStyle.thickText,
+                                width: 140,
+                                height: 55,
+                                onTap: null,
+                              )
+                            : InkwellTextButtonWidget(
+                                color: AppColor.blue,
+                                borderColor: AppColor.darkBlue,
+                                text: 'SPIN',
+                                textStyle: AppStyle.thickText,
+                                width: 140,
+                                height: 55,
+                                onTap: () async {
+                                  if (balance > 200 && bet != 0) {
+                                    setState(() {
+                                      final int result =
+                                          Fortune.randomInt(0, items.length);
+                                      controller.add(result);
+                                      onSpinEnd(result);
+                                      Future.delayed(const Duration(seconds: 6),
+                                          () {
+                                        setState(() {
+                                          isSpinning = false;
+                                        });
+                                        Navigator.of(context).pushNamed('/win',
+                                            arguments: {
+                                              'type': GameType.roulette,
+                                              'winAmount': win
+                                            });
+                                        cubit.balanceCases
+                                            .saveBalance(balance + win);
                                       });
-                                });
-                              });
-                            }
-                          },
-                        ),
+                                    });
+                                  }
+                                },
+                              ),
                       ],
                     ),
                   ],
@@ -314,13 +342,16 @@ class _RoulettePageState extends State<RoulettePage> {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/pause');
-                      },
-                      child: Image.asset('assets/images/pause_icon.png')),
-                ),
+                    padding: const EdgeInsets.all(10),
+                    child: InkwellButtonWidget(
+                        color: AppColor.blue,
+                        borderColor: AppColor.darkBlue,
+                        width: 48,
+                        height: 49,
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/pause');
+                        },
+                        assetPath: 'assets/images/pause_icon.png')),
               ),
             ],
           ),

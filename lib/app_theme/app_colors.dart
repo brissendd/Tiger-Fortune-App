@@ -12,4 +12,6 @@ abstract class AppColor {
   static const Color yellow = Color.fromRGBO(250, 255, 0, 1);
   static const Color dirtyYellow = Color.fromRGBO(170, 173, 112, 1);
   static const Color brightYellow = Color.fromRGBO(196, 199, 134, 1);
+  static const Color disabledButtonBorder = Color.fromRGBO(128, 128, 128, 1);
+  static const Color disabledButton = Color.fromRGBO(181,181,181,1);
 }

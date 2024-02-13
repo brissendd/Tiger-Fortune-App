@@ -16,26 +16,26 @@ class OutlinedTextWidget extends StatelessWidget {
           text.toUpperCase(),
           textAlign: TextAlign.start,
           style: TextStyle(
-            fontFamily: 'Roboto',
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.w900,
-            fontSize: fontSize,
-            foreground: Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 5
-              ..color = AppColor.textOutline,
-          ),
+              fontFamily: 'Roboto',
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w900,
+              fontSize: fontSize,
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 5
+                ..color = AppColor.textOutline,
+              height: 0.9),
         ),
         Text(
           text.toUpperCase(),
           textAlign: TextAlign.start,
           style: TextStyle(
-            fontFamily: 'Roboto',
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.w900,
-            fontSize: fontSize,
-            color: AppColor.titlered,
-          ),
+              fontFamily: 'Roboto',
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w900,
+              fontSize: fontSize,
+              color: AppColor.titlered,
+              height: 0.9),
         ),
       ],
     );

@@ -21,13 +21,13 @@ class _LogoChoosingState extends State<LogoChoosing> {
       width: 264,
       height: 136,
       child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 1.8,
-          crossAxisSpacing: 0.1,
-          mainAxisSpacing: 16
-        ),
+            crossAxisCount: 3,
+            childAspectRatio: 1.8,
+            crossAxisSpacing: 0.1,
+            mainAxisSpacing: 16),
         itemCount: logoList.length,
         itemBuilder: (context, index) {
           return logoList[index];

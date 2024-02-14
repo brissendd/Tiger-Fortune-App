@@ -18,24 +18,24 @@ class PokiesPage extends StatefulWidget {
 class _PokiesPageState extends State<PokiesPage> {
   final BalanceCubit cubit = BalanceCubit();
   int balance = BalanceCubit().getLastBalance();
-  late int win;
-  int bet = 0;
+  int win = 0;
+  int bet = 500;
   bool isSpinning = false;
   final Random _random = Random();
   List<int> selectedImages = [0, 0, 0];
 
   void incrementBet() {
     setState(() {
-      if (balance > bet + 200) {
-        bet += 200;
+      if (balance > bet + 500) {
+        bet += 500;
       }
     });
   }
 
   void decrementBet() {
     setState(() {
-      if (bet >= 200) {
-        bet -= 200;
+      if (bet >= 500) {
+        bet -= 500;
       }
     });
   }
@@ -48,7 +48,6 @@ class _PokiesPageState extends State<PokiesPage> {
 
   Future<void> spin() async {
     if (!isSpinning) {
-      cubit.balanceCases.saveBalance(balance -= bet);
       isSpinning = true;
       for (int i = 0; i < 5; i++) {
         setState(() {
@@ -81,7 +80,6 @@ class _PokiesPageState extends State<PokiesPage> {
       Navigator.of(context).pushNamed('/win',
           arguments: {'type': GameType.pokies, 'winAmount': win});
     }
-    cubit.balanceCases.saveBalance(balance += win);
   }
 
   @override
@@ -312,7 +310,15 @@ class _PokiesPageState extends State<PokiesPage> {
                                 width: 140,
                                 height: 55,
                                 onTap: () {
+                                  setState(() {
+                                    balance -= bet;
+                                    cubit.balanceCases.saveBalance(balance);
+                                  });
                                   spin();
+                                  setState(() {
+                                    balance += win;
+                                    cubit.balanceCases.saveBalance(balance);
+                                  });
                                 }),
                       ],
                     ),

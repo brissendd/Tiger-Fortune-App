@@ -21,22 +21,22 @@ class _RoulettePageState extends State<RoulettePage> {
   StreamController<int> controller = StreamController<int>();
   final BalanceCubit cubit = BalanceCubit();
   int balance = BalanceCubit().getLastBalance();
-  late int win;
-  int bet = 0;
+  int win = 0;
+  int bet = 500;
   bool isSpinning = false;
 
   void incrementBet() {
     setState(() {
-      if (balance > bet + 200) {
-        bet += 200;
+      if (balance > bet + 500) {
+        bet += 500;
       }
     });
   }
 
   void decrementBet() {
     setState(() {
-      if (bet >= 200) {
-        bet -= 200;
+      if (bet >= 500) {
+        bet -= 500;
       }
     });
   }
@@ -65,11 +65,11 @@ class _RoulettePageState extends State<RoulettePage> {
       case 0:
         win = bet * 20;
       case 1:
-        win = 100;
+        win = bet + 100;
       case 2:
         win = bet * 10;
       case 3:
-        win = 50;
+        win = bet + 50;
       case 4:
         win = bet * 20;
       case 5:
@@ -77,15 +77,15 @@ class _RoulettePageState extends State<RoulettePage> {
       case 6:
         win = bet * 15;
       case 7:
-        win = 20;
+        win = bet + 20;
       case 8:
         win = bet * 5;
       case 9:
         win = 0;
       case 10:
-        win = 10000;
+        win = bet + 10000;
       case 11:
-        win = 20;
+        win = bet + 20;
       case 12:
         win = bet * 10;
       case 13:
@@ -236,7 +236,7 @@ class _RoulettePageState extends State<RoulettePage> {
                                       ),
                                     ),
                                     Text(
-                                      '${cubit.getLastBalance()}',
+                                      '$balance',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontSize: 16,
@@ -267,7 +267,7 @@ class _RoulettePageState extends State<RoulettePage> {
                                     width: 68,
                                     height: 56,
                                     onTap: () {
-                                      incrementBet();
+                                      decrementBet();
                                     },
                                     assetPath: 'assets/images/minus_icon.png'),
                             const SizedBox(width: 4),
@@ -311,8 +311,10 @@ class _RoulettePageState extends State<RoulettePage> {
                                 width: 140,
                                 height: 55,
                                 onTap: () async {
-                                  if (balance > 200 && bet != 0) {
+                                  if (balance > 0) {
                                     setState(() {
+                                      balance -= bet;
+                                      cubit.balanceCases.saveBalance(balance);
                                       final int result =
                                           Fortune.randomInt(0, items.length);
                                       controller.add(result);
@@ -327,8 +329,11 @@ class _RoulettePageState extends State<RoulettePage> {
                                               'type': GameType.roulette,
                                               'winAmount': win
                                             });
-                                        cubit.balanceCases
-                                            .saveBalance(balance + win);
+                                        setState(() {
+                                          balance += win;
+                                          cubit.balanceCases
+                                              .saveBalance(balance);
+                                        });
                                       });
                                     });
                                   }

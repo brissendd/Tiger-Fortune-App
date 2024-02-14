@@ -18,8 +18,8 @@ class SpotSlotPage extends StatefulWidget {
 class _SpotSlotPageState extends State<SpotSlotPage> {
   final BalanceCubit cubit = BalanceCubit();
   int balance = BalanceCubit().getLastBalance();
-  late int win;
-  int bet = 0;
+  int win = 0;
+  int bet = 500;
   bool isSpinning = false;
 
   final List<String> images = [
@@ -34,7 +34,6 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
 
   Future<void> spin() async {
     if (!isSpinning) {
-      cubit.balanceCases.saveBalance(balance -= bet);
       isSpinning = true;
       for (int i = 0; i < 5; i++) {
         setState(() {
@@ -70,7 +69,6 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
       Navigator.of(context).pushNamed('/win',
           arguments: {'type': GameType.slot, 'winAmount': win});
     }
-    cubit.balanceCases.saveBalance(balance += win);
   }
 
   @override
@@ -79,16 +77,16 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
 
     void incrementBet() {
       setState(() {
-        if (balance > bet + 200) {
-          bet += 200;
+        if (balance > bet + 500) {
+          bet += 500;
         }
       });
     }
 
     void decrementBet() {
       setState(() {
-        if (bet >= 200) {
-          bet -= 200;
+        if (bet >= 500) {
+          bet -= 500;
         }
       });
     }
@@ -330,7 +328,15 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                                 width: 140,
                                 height: 55,
                                 onTap: () {
+                                  setState(() {
+                                    balance -= bet;
+                                    cubit.balanceCases.saveBalance(balance);
+                                  });
                                   spin();
+                                  setState(() {
+                                    balance += win;
+                                    cubit.balanceCases.saveBalance(balance);
+                                  });
                                 }),
                       ],
                     ),

@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         '/spots': (context) => const SpotsPage(),
         '/spotSlot': (context) => const SpotSlotPage(),
         '/roulette': (context) => const RoulettePage(),
-        '/pokies': (context) => const PokiesPage(),        
+        '/pokies': (context) => const PokiesPage(),
         '/pause': (context) => const PausePage(),
         '/daily': (context) => const DailyRewardPage(),
         '/win': (context) => const WinPage(),

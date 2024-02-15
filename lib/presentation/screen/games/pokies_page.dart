@@ -36,7 +36,7 @@ class _PokiesPageState extends State<PokiesPage> {
 
   void onStart() {
     final index = Random().nextInt(20);
-    _controller.start(hitRollItemIndex: index < 3 ? index : null);
+    _controller.start(hitRollItemIndex: index < 4 ? index : null);
   }
 
   void incrementBet() {
@@ -55,11 +55,11 @@ class _PokiesPageState extends State<PokiesPage> {
     });
   }
 
-  final List<String> images = [
-    'assets/images/games_elements/1.png',
-    'assets/images/games_elements/2.png',
-    'assets/images/games_elements/3.png',
-    'assets/images/games_elements/4.png',
+  final List<Widget> images = [
+    Image.asset('assets/images/games_elements/1.png'),
+    Image.asset('assets/images/games_elements/2.png'),
+    Image.asset('assets/images/games_elements/3.png'),
+    Image.asset('assets/images/games_elements/4.png')
   ];
 
   void checkWin() async {
@@ -166,32 +166,32 @@ class _PokiesPageState extends State<PokiesPage> {
                                         Row(
                                           children: [
                                             const SizedBox(
-                                              width: 23,
+                                              width: 19,
                                             ),
                                             SlotMachine(
                                               reelSpacing: 0,
                                               reelItemExtent: 60,
-                                              reelHeight: 180,
+                                              reelHeight: 170,
                                               width: 246,
                                               reelWidth: 82,
                                               height: 200,
                                               rollItems: [
                                                 RollItem(
                                                     index: 0,
-                                                    child:
-                                                        Image.asset(images[0])),
+                                                    child: Image.asset(
+                                                        'assets/images/games_elements/1.png')),
                                                 RollItem(
                                                     index: 1,
-                                                    child:
-                                                        Image.asset(images[1])),
+                                                    child: Image.asset(
+                                                        'assets/images/games_elements/2.png')),
                                                 RollItem(
                                                     index: 2,
-                                                    child:
-                                                        Image.asset(images[2])),
+                                                    child: Image.asset(
+                                                        'assets/images/games_elements/3.png')),
                                                 RollItem(
                                                     index: 3,
-                                                    child:
-                                                        Image.asset(images[3])),
+                                                    child: Image.asset(
+                                                        'assets/images/games_elements/4.png')),
                                               ],
                                               onCreated: (controller) {
                                                 _controller = controller;

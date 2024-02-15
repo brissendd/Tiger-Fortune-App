@@ -8,6 +8,8 @@ import 'package:tiger_fortune_app/presentation/screen/win_page.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 
+import '../../../widgets/slot_machine.dart';
+
 class SpotSlotPage extends StatefulWidget {
   const SpotSlotPage({super.key});
 
@@ -21,35 +23,45 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
   int win = 0;
   int bet = 500;
   bool isSpinning = false;
-
-  final List<String> images = [
-    'assets/images/games_elements/1.png',
-    'assets/images/games_elements/2.png',
-    'assets/images/games_elements/3.png',
-    'assets/images/games_elements/4.png',
-  ];
-
-  final Random _random = Random();
+  late SlotMachineController _controller;
   List<int> selectedImages = [0, 0, 0, 0];
 
-  Future<void> spin() async {
-    if (!isSpinning) {
-      isSpinning = true;
-      for (int i = 0; i < 5; i++) {
-        setState(() {
-          selectedImages[0] = _random.nextInt(images.length);
-          selectedImages[1] = _random.nextInt(images.length);
-          selectedImages[2] = _random.nextInt(images.length);
-          selectedImages[3] = _random.nextInt(images.length);
-        });
-        await Future.delayed(const Duration(seconds: 1));
-      }
-      setState(() {
-        isSpinning = false;
-      });
-      checkWin();
-    }
+  @override
+  void initState() {
+    super.initState();
   }
+
+  void onButtonTap({required int index}) {
+    _controller.stop(reelIndex: index);
+  }
+
+  void onStart() {
+    final index = Random().nextInt(20);
+    _controller.start(hitRollItemIndex: index < 4 ? index : null);
+  }
+
+  void incrementBet() {
+    setState(() {
+      if (balance > bet + 500) {
+        bet += 500;
+      }
+    });
+  }
+
+  void decrementBet() {
+    setState(() {
+      if (bet >= 500) {
+        bet -= 500;
+      }
+    });
+  }
+
+  final List<Widget> images = [
+    Image.asset('assets/images/games_elements/1.png'),
+    Image.asset('assets/images/games_elements/2.png'),
+    Image.asset('assets/images/games_elements/3.png'),
+    Image.asset('assets/images/games_elements/4.png')
+  ];
 
   void checkWin() async {
     Future.delayed(const Duration(seconds: 1));
@@ -68,29 +80,20 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
       }
       Navigator.of(context).pushNamed('/win',
           arguments: {'type': GameType.slot, 'winAmount': win});
+      setState(() {
+        balance += win;
+        cubit.balanceCases.saveBalance(balance);
+      });
     }
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    int balance = cubit.getLastBalance();
-
-    void incrementBet() {
-      setState(() {
-        if (balance > bet + 500) {
-          bet += 500;
-        }
-      });
-    }
-
-    void decrementBet() {
-      setState(() {
-        if (bet >= 500) {
-          bet -= 500;
-        }
-      });
-    }
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -144,85 +147,58 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 300,
                       width: 370,
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
                           Image.asset('assets/images/spot_slot/slot.png'),
                           Align(
-                            alignment: const Alignment(0, 0.4),
+                            alignment: const Alignment(0.2, 0.4),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 SizedBox(
-                                  height: 50,
-                                  width: 340,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Roll(
-                                          image: images[selectedImages[0 + 1]]),
-                                      Roll(
-                                          image: images[selectedImages[1 - 1]]),
-                                      Roll(
-                                          image: images[selectedImages[2 - 2]]),
-                                      Roll(
-                                          image: images[selectedImages[3 - 3]]),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width: 340,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Roll(
-                                          image: images[selectedImages[0 + 1]]),
-                                      Roll(
-                                          image: images[selectedImages[1 + 1]]),
-                                      Roll(
-                                          image: images[selectedImages[2 + 1]]),
-                                      Roll(
-                                          image: images[selectedImages[3 - 1]]),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width: 340,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Roll(image: images[selectedImages[0]]),
-                                      Roll(image: images[selectedImages[1]]),
-                                      Roll(image: images[selectedImages[2]]),
-                                      Roll(image: images[selectedImages[3]]),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  width: 340,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      Roll(
-                                          image: images[selectedImages[0 + 1]]),
-                                      Roll(
-                                          image: images[selectedImages[1 - 1]]),
-                                      Roll(
-                                          image: images[selectedImages[2 - 2]]),
-                                      Roll(
-                                          image: images[selectedImages[3 - 3]]),
-                                    ],
-                                  ),
-                                ),
+                                    height: 360,
+                                    width: 334,
+                                    child: Column(
+                                      children: [
+                                        SlotMachine(
+                                          reelSpacing: 0,
+                                          reelItemExtent: 45,
+                                          reelHeight: 190,
+                                          width: 400,
+                                          reelWidth: 82,
+                                          height: 334,
+                                          rollItems: [
+                                            RollItem(
+                                                index: 0,
+                                                child: Image.asset(
+                                                    'assets/images/games_elements/1.png')),
+                                            RollItem(
+                                                index: 1,
+                                                child: Image.asset(
+                                                    'assets/images/games_elements/2.png')),
+                                            RollItem(
+                                                index: 2,
+                                                child: Image.asset(
+                                                    'assets/images/games_elements/3.png')),
+                                            RollItem(
+                                                index: 3,
+                                                child: Image.asset(
+                                                    'assets/images/games_elements/4.png')),
+                                          ],
+                                          onCreated: (controller) {
+                                            _controller = controller;
+                                          },
+                                          onFinished: (resultIndexes) {
+                                            // ignore: avoid_print
+                                            print('Result: $resultIndexes');
+                                            selectedImages = resultIndexes;
+                                            checkWin();
+                                          },
+                                        ),
+                                      ],
+                                    )),
                               ],
                             ),
                           ),
@@ -253,7 +229,7 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                                       ),
                                     ),
                                     Text(
-                                      '${cubit.getLastBalance()}',
+                                      '$balance',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontSize: 16,
@@ -327,15 +303,30 @@ class _SpotSlotPageState extends State<SpotSlotPage> {
                                 textStyle: AppStyle.thickText,
                                 width: 140,
                                 height: 55,
-                                onTap: () {
+                                onTap: () async {
                                   setState(() {
                                     balance -= bet;
                                     cubit.balanceCases.saveBalance(balance);
+                                    isSpinning = true;
                                   });
-                                  spin();
+                                  onStart();
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                  onButtonTap(index: 0);
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                  onButtonTap(index: 1);
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                  onButtonTap(index: 2);
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                  onButtonTap(index: 3);
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+
                                   setState(() {
-                                    balance += win;
-                                    cubit.balanceCases.saveBalance(balance);
+                                    isSpinning = false;
                                   });
                                 }),
                       ],

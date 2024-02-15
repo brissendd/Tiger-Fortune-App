@@ -24,6 +24,7 @@ class _SpotsPageState extends State<SpotsPage> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -128,8 +129,10 @@ class _SpotsPageState extends State<SpotsPage> {
                           case 0:
                             Navigator.of(context).pushNamed('/roulette');
                           case 1:
+                            Navigator.of(context).pushNamed('/roulette');
                             Navigator.of(context).pushNamed('/spotSlot');
                           case 2:
+                            Navigator.of(context).pushNamed('/roulette');
                             Navigator.of(context).pushNamed('/pokies');
                         }
                       },

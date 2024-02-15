@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:tiger_fortune_app/app_theme/app_colors.dart';
 import 'package:tiger_fortune_app/app_theme/app_style.dart';
+import 'package:tiger_fortune_app/presentation/bloc/balance_cubit.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_icon_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/inkwell_text_button_widget.dart';
 import 'package:tiger_fortune_app/widgets/logo_choosing.dart';
 import 'package:tiger_fortune_app/widgets/outlined_text_widget.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  final BalanceCubit cubit = BalanceCubit();
+  int balance = BalanceCubit().getLastBalance();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +31,7 @@ class SettingsPage extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.fitWidth,
               child: Stack(
-                children: [
-                  OutlinedTextWidget(text: 'Settings', fontSize: 32)
-                ],
+                children: [OutlinedTextWidget(text: 'Settings', fontSize: 32)],
               ),
             ),
           ),
@@ -53,7 +59,11 @@ class SettingsPage extends StatelessWidget {
                     text: 'Share with friends',
                     width: 241,
                     height: 49,
-                    onTap: () {},
+                    onTap: () {
+                      balance += 10000;
+                      cubit.balanceCases.saveBalance(balance);
+                      print('Your balance: $balance');
+                    },
                     textStyle: AppStyle.buttonText),
                 const SizedBox(height: 8),
                 InkwellTextButtonWidget(

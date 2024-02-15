@@ -9,7 +9,7 @@ class BalanceRepositoryImpl extends BalanceRepository {
   BalanceRepositoryImpl(this.box);
 
   @override
-  int getLastBalance() => box.get(boxKey, defaultValue: 50000);
+  int getLastBalance() => box.get(boxKey, defaultValue: 40000);
 
   @override
   Future<int> saveBalance(int balance) async {

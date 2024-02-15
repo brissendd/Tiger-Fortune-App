@@ -6,7 +6,7 @@ class BalanceCubit extends Cubit<BalanceState> {
   final balanceCases = DI.getInstance().balanceCase;
   final lastClaimTimeCases = DI.getInstance().lastClaimTimeCase;
 
-  BalanceCubit() : super(const BalanceState(lastClaimTime: 0, balance: 50000)) {
+  BalanceCubit() : super(const BalanceState(lastClaimTime: 0, balance: 40000)) {
     emit(BalanceState(
         lastClaimTime: lastClaimTimeCases.getLastClaimTime(),
         balance: balanceCases.getLastBalance()));

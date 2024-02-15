@@ -2,18 +2,18 @@ import 'package:tiger_fortune_app/data/repository/balance_repo.dart';
 import 'package:hive/hive.dart';
 
 class BalanceRepositoryImpl extends BalanceRepository {
-  static const boxKey = 'balance';
+  static const balanceKey = 'balance1';
 
   final Box box;
 
   BalanceRepositoryImpl(this.box);
 
   @override
-  int getLastBalance() => box.get(boxKey, defaultValue: 40000);
+  int getLastBalance() => box.get(balanceKey, defaultValue: 40000);
 
   @override
   Future<int> saveBalance(int balance) async {
-    box.put(boxKey, balance);
+    box.put(balanceKey, balance);
     return balance;
   }
 }

@@ -23,7 +23,7 @@ class DI {
   Future<void> init() async {
     final directory = await getApplicationSupportDirectory();
     Hive.init(directory.path);
-    balanceRepository = BalanceRepositoryImpl(await Hive.openBox('balance'));
+    balanceRepository = BalanceRepositoryImpl(await Hive.openBox('balance1'));
     balanceCase = BalanceCaseImpl(balanceRepository);
     lastClaimTimeRepository = LastClaimTimeRepositoryImpl(await Hive.openBox('lastClaimTime'));
     lastClaimTimeCase = LastClaimTimeCaseImpl(lastClaimTimeRepository);
